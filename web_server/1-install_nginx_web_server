@@ -2,6 +2,18 @@
 #  Install nginx web server
 sudo apt-get update
 sudo apt install nginx -y
-sudo touch /var/www/html/index.html
-echo "Holberton School" | sudo tee /var/www/html/index.html
+echo 'server {
+    listen 80 default_server;
+    listen [::]:80 default_server ipv6only=on;
+
+    root /var/www/html;
+    index index.html index.htm;
+
+    server_name _;
+    
+    location / {
+        try_files $uri $uri/ = 404;
+        echo "Holberton School";
+    }
+}' | sudo tee /etc/nginx/sites-available/default > /dev/null
 sudo service nginx restart
